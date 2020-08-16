@@ -1,16 +1,17 @@
 import React, {Component} from 'react';
+import {View, Platform, StyleSheet, Text, ScrollView, Image} from 'react-native';
+import { createStackNavigator, createDrawerNavigator, DrawerItems } from 'react-navigation';
+import { Icon } from 'react-native-elements';
+import { connect } from 'react-redux';
+import SafeAreaView from 'react-native-safe-area-view';
+import Reservation from './ReservationComponent';
 import Directory from './DirectoryComponent';
 import Home from './HomeComponent';
 import CampsiteInfo from './CampsiteInfoComponent';
 import About from './AboutComponent';
 import Contact from './ContactComponent';
-import {View, Platform, StyleSheet, Text, ScrollView, Image} from 'react-native';
-import { createStackNavigator, createDrawerNavigator, DrawerItems } from 'react-navigation';
-import { Icon } from 'react-native-elements';
-import SafeAreaView from 'react-native-safe-area-view';
-import { connect } from 'react-redux';
+import Favorites from './FavoritesComponents';
 import { fetchCampsites, fetchComments, fetchPromotions, fetchPartners} from '../redux/ActionCreators';
-import Reservation from './ReservationComponent';
 
 const AboutNavigator = createStackNavigator(
     {
@@ -50,6 +51,29 @@ const ContactNavigator = createStackNavigator(
             },
             headerLeft: <Icon
                 name='address-card'
+                type='font-awesome'
+                iconStyle={styles.stackIcon}
+                onPress={()=>navigation.toggleDrawer()}
+                />
+        })
+    }
+);
+
+const FavoriteNavigator = createStackNavigator(
+    {
+        Favorites: { screen: Favorites}
+    },
+    {
+        navigationOptions: ({navigation}) => ({
+            headerStyle: {
+                backgroundColor: '#5637DD'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                color: '#fff'
+            },
+            headerLeft: <Icon
+                name='heart'
                 type='font-awesome'
                 iconStyle={styles.stackIcon}
                 onPress={()=>navigation.toggleDrawer()}
@@ -194,6 +218,20 @@ const MainNavigator = createDrawerNavigator(
                 )
             }
         },
+        Favorites: { 
+            screen: FavoriteNavigator,
+            navigationOptions:{
+                drawerLabel: 'My Favorites',
+                drawerIcon: ({tintColor}) =>(
+                    <Icon 
+                        name='heart'
+                        type='font-awesome'
+                        style={24}
+                        color={tintColor}
+                    />
+                )
+            }
+        },
         About: { 
             screen: AboutNavigator,
             navigationOptions:{
@@ -279,12 +317,14 @@ const styles = StyleSheet.create({
         fontSize: 24
     }
 });
-
+//these are the action creators that use thunk to send async calls to fetch from server
 mapDispatchToProps = {
     fetchCampsites,
     fetchComments,
     fetchPartners,
     fetchPromotions
 };
-
+//this is how to get access to the action creators in a component
 export default connect(null, mapDispatchToProps)(Main);
+
+
