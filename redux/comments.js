@@ -1,4 +1,4 @@
-import * as ActionTypes from './ActionsTypes';
+import * as ActionTypes from './ActionTypes';
 
 export const comments = (state = { errMess: null, comments: []}, action) => {
     switch (action.type) {
@@ -9,9 +9,8 @@ export const comments = (state = { errMess: null, comments: []}, action) => {
             return {...state, errMess: action.payload};
 
         case ActionTypes.ADD_COMMENT:
-            action.payload.id = state.comments.length + 1;
-            return {...state, errMess: null, comments: [...state.comments, action.payload]};
-
+            action.payload.id = comments.length;
+            return {...state, errMess: null, comments: state.comments.concat([action.payload])};
         default:
             return state;
     }

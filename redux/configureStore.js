@@ -1,7 +1,7 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
-import { campsites } from './campsite';
+import { campsites } from './campsites';
 import { comments } from './comments';
 import { promotions } from './promotions';
 import { partners } from './partners';
@@ -16,7 +16,7 @@ export const ConfigureStore = () => {
             promotions,
             favorites
         }),
-        applyMiddleware(thunk, logger)
+        applyMiddleware(thunk)
     );
     return store;
 }
