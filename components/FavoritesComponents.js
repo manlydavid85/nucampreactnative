@@ -69,14 +69,15 @@ class Favorites extends Component{
     }
 
 }
+const mapDispatchToProps = {
+    deleteFavorite: campsiteId => (deleteFavorite(campsiteId))
+   
+}
 const mapStateToProps = state => {
     return {
         campsites: state.campsites,
         favorites: state.favorites
     }
 }
-const mapDispatchToProps = {
-    deleteFavorite: campsiteId => (deleteFavorite(campsiteId))
-    //Do you have to include the parameters here???
-}
+
 export default connect(mapStateToProps, mapDispatchToProps)(Favorites);

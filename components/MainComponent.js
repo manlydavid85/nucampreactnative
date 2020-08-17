@@ -288,6 +288,12 @@ class Main extends Component{
         )
     }
 }
+mapDispatchToProps = {
+    fetchCampsites,
+    fetchComments,
+    fetchPartners,
+    fetchPromotions
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -317,14 +323,9 @@ const styles = StyleSheet.create({
         fontSize: 24
     }
 });
-//these are the action creators that use thunk to send async calls to fetch from server
-mapDispatchToProps = {
-    fetchCampsites,
-    fetchComments,
-    fetchPartners,
-    fetchPromotions
-};
-//this is how to get access to the action creators in a component
+
+
+
 export default connect(null, mapDispatchToProps)(Main);
 
 
