@@ -69,15 +69,14 @@ class Favorites extends Component{
     }
 
 }
-const mapDispatchToProps = {
-    deleteFavorite: campsiteId => (deleteFavorite(campsiteId))
-   
-}
 const mapStateToProps = state => {
     return {
         campsites: state.campsites,
         favorites: state.favorites
     }
 }
-
+const mapDispatchToProps = {
+    deleteFavorite: campsiteId => (deleteFavorite(campsiteId))
+ 
+}
 export default connect(mapStateToProps, mapDispatchToProps)(Favorites);

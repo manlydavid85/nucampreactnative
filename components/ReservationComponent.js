@@ -1,24 +1,26 @@
 import React, { Component } from 'react';
 import { Text, View, ScrollView, 
     StyleSheet, Picker, Switch, 
-    Button, Modal } from 'react-native';
+    Button, Modal, Alert } from 'react-native';
 import DatePicker from 'react-native-datepicker';
+import * as Animatable from 'react-native-animatable';
+
 
 class Reservation extends Component {
     state = {
         campers:1,
         hikeIn:false,
-        data:'',
-        showModal: false
+        data:''
+        // showModal: false
     }
 
     static navigationOptions = { 
         title: 'Reserve Campsite'
     }
 
-    toggleModal = () => {
-        this.setState({showModal: !this.state.showModal});
-    }
+    // toggleModal = () => {
+    //     this.setState({showModal: !this.state.showModal});
+    // }
 
     resetForm(){
         this.setState({
@@ -31,11 +33,31 @@ class Reservation extends Component {
 
     handleReservation = () => {
         console.log(JSON.stringify(this.state));
-        this.toggleModal();
+        // this.toggleModal();
+        Alert.alert(
+            'Begin Search?',
+            `Number of Campers: ${this.state.campers}\n\nHike-In? ${this.state.hikeIn}\n\nDate: ${this.state.date}`,
+            [
+                {
+                    text: 'cancel',
+                    style: 'cancel',
+                    onPress: ()=> console.log('Cancel Pressed')
+                },
+                {
+                    text: 'OK',
+                    onPress: () => console.log('submitted reservation')
+                }
+            ],
+            { cancelable: false }
+        )
     }
     render(){
         return(
-            <ScrollView>
+            <Animatable.View
+                animation='zoomIn' 
+                duration={2000} 
+                delay={1000}
+            >
                 <View style={styles.formRow}>
                     <Text style={styles.formLabel}>Number of Campers</Text>
                     <Picker
@@ -93,7 +115,7 @@ class Reservation extends Component {
                         accessibilityLabel='Tap me to search for avalible campsites to reserve'
                     />
                 </View>
-                <Modal
+                {/* <Modal
                     animationType={'slide'}
                     transparent={false}
                     visible={this.state.showModal}
@@ -112,8 +134,8 @@ class Reservation extends Component {
                             title='Close'
                         />
                     </View>    
-                </Modal>
-            </ScrollView>
+                </Modal> */}
+            </Animatable.View>
         )
     }
 }

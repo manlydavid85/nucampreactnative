@@ -288,12 +288,6 @@ class Main extends Component{
         )
     }
 }
-mapDispatchToProps = {
-    fetchCampsites,
-    fetchComments,
-    fetchPartners,
-    fetchPromotions
-};
 
 const styles = StyleSheet.create({
     container: {
@@ -324,7 +318,12 @@ const styles = StyleSheet.create({
     }
 });
 
-
+mapDispatchToProps = {
+    fetchCampsites,
+    fetchComments,
+    fetchPartners,
+    fetchPromotions
+};
 
 export default connect(null, mapDispatchToProps)(Main);
 

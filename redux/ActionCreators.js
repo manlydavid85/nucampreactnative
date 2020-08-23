@@ -1,4 +1,4 @@
-import * as ActionTypes from './ActionTypes';
+import * as ActionTypes from './ActionsTypes';
 import { baseUrl } from '../shared/baseUrl';
 
 export const fetchComments = () => dispatch => {
@@ -156,16 +156,10 @@ export const partnersFailed = errMess => ({
     payload: errMess
 });
 
-export const addFavorite = (campsiteId) => ({
-    type: ActionTypes.ADD_FAVORITE,
-    payload: campsiteId
-});
-
 export const addPartners = partners => ({
     type: ActionTypes.ADD_PARTNERS,
     payload: partners
 });
-
 
 export const postFavorite = (campsiteId) => (dispatch) => {
     setTimeout(() => {
@@ -173,6 +167,10 @@ export const postFavorite = (campsiteId) => (dispatch) => {
     },2000);
 };
 
+export const addFavorite = (campsiteId) => ({
+    type: ActionTypes.ADD_FAVORITE,
+    payload: campsiteId
+});
 
 export const deleteFavorite = (campsiteId) => ({
     type: ActionTypes.DELETE_FAVORITE,

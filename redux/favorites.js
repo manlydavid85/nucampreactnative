@@ -1,5 +1,4 @@
-
-import * as ActionTypes from './ActionTypes';
+import * as ActionTypes from './ActionsTypes';
 
 export const favorites = (state = [], action) => {
     switch(action.type){
