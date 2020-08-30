@@ -4,7 +4,8 @@ import { Text, View, ScrollView,
     Button, Modal, Alert } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import * as Animatable from 'react-native-animatable';
-
+import * as Permissions from 'expo-permissions';
+import { Notifications } from 'expo';
 
 class Reservation extends Component {
     state = {
@@ -41,16 +42,45 @@ class Reservation extends Component {
                 {
                     text: 'cancel',
                     style: 'cancel',
-                    onPress: ()=> console.log('Cancel Pressed')
+                    onPress: ()=>{
+                        console.log('Reservation search canceled');
+                        this.resetForm();
+                    }
                 },
                 {
                     text: 'OK',
-                    onPress: () => console.log('submitted reservation')
+                    onPress: () => {
+                        this.presentLocalNotification(this.state.date);
+                        this.resetForm();
+                    }
                 }
             ],
             { cancelable: false }
         )
     }
+
+    async obtainNotificationPermission(){
+        const permission = await Permissions.getAsync(Permissions.USER_FACING_NOTIFICATIONS);
+        if(permission.status !== 'granted'){
+            const permission = await Permissions.askAsync(Permissions.USER_FACING_NOTIFICATIONS);
+            if(permission.status !== 'granted'){
+                Alert.alert('Permission not granted to show notifications');
+            }
+            return permission;
+        }
+        return permission;
+    }
+
+    async presentLocalNotification(date){
+        const permission = await this.obtainNotificationPermission();
+        if(permission.status === 'granted'){
+            Notifications.presentLocalNotificationAsync({
+                title: 'Your Campsite Reservation Search',
+                body: `Search for ${date} requested`
+            });
+        }
+    }
+
     render(){
         return(
             <Animatable.View
@@ -115,26 +145,9 @@ class Reservation extends Component {
                         accessibilityLabel='Tap me to search for avalible campsites to reserve'
                     />
                 </View>
-                {/* <Modal
-                    animationType={'slide'}
-                    transparent={false}
-                    visible={this.state.showModal}
-                    onRequestClose={()=>this.toggleModal()}>
-                    <View style={styles.modal}>
-                        <Text style={styles.modalTitle}>Search Campsite Reservations</Text>
-                        <Text style={styles.modalText}>Number of Campers: {this.state.campers}</Text>
-                        <Text style={styles.modalText}>Hike-In?: {this.state.hikeIn ? 'Yes' : 'No'}</Text>
-                        <Text style={styles.modalText}>Date: {this.state.date}</Text>
-                        <Button 
-                            onPress={()=>{
-                                this.toggleModal();
-                                this.resetForm();
-                            }}
-                            color='#5637DD'
-                            title='Close'
-                        />
-                    </View>    
-                </Modal> */}
+                {
+                    
+                }
             </Animatable.View>
         )
     }
